@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AC Manager – Gestão de Serviços</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body { background-color: #f0f4f8; }
+    .navbar { background: linear-gradient(135deg, #0d6efd, #0a58ca) !important; }
+    .navbar-brand, .nav-link { color: #fff !important; }
+    .nav-link:hover { color: #cfe2ff !important; }
+    .card { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    .card-header { border-radius: 12px 12px 0 0 !important; }
+    .table thead { background-color: #0d6efd; color: #fff; }
+    .badge-vence { background-color: #fff3cd; color: #856404; }
+    .badge-vencido { background-color: #f8d7da; color: #842029; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="dashboard.php">
+        <i class="bi bi-wind"></i> AC Manager
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="indexequipamento.php"><i class="bi bi-cpu"></i> Equipamentos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="buscar_equipamento.php"><i class="bi bi-qr-code-scan"></i> Buscar Aparelho</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="indexordem.php"><i class="bi bi-clipboard2-check"></i> Ordens de Serviço</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="indexservico.php"><i class="bi bi-gear"></i> Serviços</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="indexprofissional.php"><i class="bi bi-person-badge"></i> Profissionais</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="nav-link"><i class="bi bi-person-circle"></i>
+              <?php echo isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : ""; ?>
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="controller/LoginController.php?sair=1">
+              <i class="bi bi-box-arrow-right"></i> Sair
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid pt-3 pb-5">

@@ -1,0 +1,10 @@
+# QR Codes gerados localmente
+qrcodes/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor VSCode (configurações pessoais)
+.vscode/settings.json
+*.swp
