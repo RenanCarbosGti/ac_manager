@@ -9,7 +9,6 @@ include "topo.html";
 
 $eDao = new EquipamentoDao();
 
-// Mensagens de feedback
 if (isset($_SESSION["resultado"])) {
     $cls = $_SESSION["resultado"] ? "alert-success" : "alert-danger";
     echo "<div class='alert $cls alert-dismissible fade show'>
@@ -20,31 +19,27 @@ if (isset($_SESSION["resultado"])) {
     $_SESSION["mensagem"]  = null;
 }
 
-// Carregar para edição ou criar vazio
 if (isset($_GET["id"])) {
     $result = $eDao->readId($_GET["id"]);
 } elseif (isset($_GET["qr"])) {
-    // Busca por QR Code (leitura do QR colado no equipamento)
     $result = $eDao->buscarPorQR($_GET["qr"]);
-    if ($result) {
-        $_SESSION["qr_equipamento"] = $result["idequipamento"];
-    }
+    if ($result) $_SESSION["qr_equipamento"] = $result["idequipamento"];
 } else {
     $result = ["idequipamento"=>"","codigo_qr"=>"","nome_cliente"=>"","endereco"=>"","telefone"=>"","modelo"=>"","marca"=>""];
 }
 
-// Filtro de busca
-$filtro = $_GET["filtro"] ?? "";
-$lista  = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
+$filtro        = $_GET["filtro"] ?? "";
+$lista         = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
+$clientesExist = $eDao->buscarClientesUnicos();
+$isEdicao      = !empty($result["idequipamento"]);
 ?>
 
 <div class="row">
-  <!-- Formulário -->
   <div class="col-lg-4">
     <div class="card mb-4">
       <div class="card-header bg-primary text-white fw-semibold">
         <i class="bi bi-cpu me-2"></i>
-        <?php echo empty($result["idequipamento"]) ? "Novo Equipamento" : "Editar Equipamento"; ?>
+        <?php echo $isEdicao ? "Editar Equipamento" : "Novo Equipamento"; ?>
       </div>
       <div class="card-body">
         <form method="post" action="controller/EquipamentoController.php">
@@ -58,24 +53,63 @@ $lista  = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
             </div>
           <?php endif; ?>
 
-          <div class="mb-2">
-            <label class="form-label">Nome do Cliente <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" name="txtNomeCliente"
-                   placeholder="Nome completo" required
-                   value="<?php echo htmlspecialchars($result["nome_cliente"]); ?>">
+          <?php if (!$isEdicao): ?>
+          <!-- Novo cliente ou existente -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Cliente <span class="text-danger">*</span></label>
+            <div class="btn-group w-100 mb-2" role="group">
+              <input type="radio" class="btn-check" name="tipoCliente" id="rbNovo" value="novo"
+                     checked onchange="toggleCliente()">
+              <label class="btn btn-outline-primary btn-sm" for="rbNovo">
+                <i class="bi bi-person-plus me-1"></i>Novo Cliente
+              </label>
+              <input type="radio" class="btn-check" name="tipoCliente" id="rbExist" value="existente"
+                     onchange="toggleCliente()">
+              <label class="btn btn-outline-success btn-sm" for="rbExist">
+                <i class="bi bi-person-check me-1"></i>Cliente Existente
+              </label>
+            </div>
+            <div id="secaoExistente" style="display:none;">
+              <select class="form-select" id="cbClienteExist" onchange="preencherCliente()">
+                <option value="">Selecione o cliente...</option>
+                <?php foreach ($clientesExist as $c): ?>
+                  <option value="<?php echo $c['idequipamento']; ?>"
+                          data-nome="<?php echo htmlspecialchars($c['nome_cliente']); ?>"
+                          data-tel="<?php echo htmlspecialchars($c['telefone']); ?>"
+                          data-end="<?php echo htmlspecialchars($c['endereco']); ?>">
+                    <?php echo htmlspecialchars($c['nome_cliente']); ?>
+                    &mdash; <?php echo htmlspecialchars($c['telefone']); ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+              <div class="form-text text-success small">
+                <i class="bi bi-info-circle me-1"></i>Dados preenchidos automaticamente.
+              </div>
+            </div>
           </div>
-          <div class="mb-2">
-            <label class="form-label">Endereço <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" name="txtEndereco"
-                   placeholder="Rua, número, bairro, cidade"
-                   value="<?php echo htmlspecialchars($result["endereco"]); ?>">
+          <?php endif; ?>
+
+          <div id="secaoDadosCliente">
+            <div class="mb-2">
+              <label class="form-label">Nome do Cliente <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="txtNomeCliente" id="txtNomeCliente"
+                     placeholder="Nome completo" required
+                     value="<?php echo htmlspecialchars($result["nome_cliente"]); ?>">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Endereço</label>
+              <input type="text" class="form-control" name="txtEndereco" id="txtEndereco"
+                     placeholder="Rua, número, bairro, cidade"
+                     value="<?php echo htmlspecialchars($result["endereco"]); ?>">
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Telefone</label>
+              <input type="tel" class="form-control" name="txtTelefone" id="txtTelefone"
+                     placeholder="(00) 00000-0000"
+                     value="<?php echo htmlspecialchars($result["telefone"]); ?>">
+            </div>
           </div>
-          <div class="mb-2">
-            <label class="form-label">Telefone <span class="text-danger">*</span></label>
-            <input type="tel" class="form-control" name="txtTelefone"
-                   placeholder="(00) 00000-0000"
-                   value="<?php echo htmlspecialchars($result["telefone"]); ?>">
-          </div>
+
           <div class="mb-2">
             <label class="form-label">Marca do AC</label>
             <input type="text" class="form-control" name="txtMarca"
@@ -109,17 +143,15 @@ $lista  = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
         <p class="text-muted small">Insira o código do QR colado no equipamento para localizar o cliente.</p>
         <form method="get" action="indexequipamento.php">
           <div class="input-group">
-            <input type="text" class="form-control" name="qr"
-                   placeholder="Ex: AC-A1B2C3D4-123" autofocus>
+            <input type="text" class="form-control" name="qr" placeholder="Ex: AC-A1B2C3D4-123">
             <button class="btn btn-success" type="submit">
               <i class="bi bi-search"></i>
             </button>
           </div>
         </form>
-        <?php if (isset($_GET["qr"]) && !$result["idequipamento"]): ?>
+        <?php if (isset($_GET["qr"]) && empty($result["idequipamento"])): ?>
           <div class="alert alert-warning mt-2 mb-0 py-2 small">
-            <i class="bi bi-exclamation-triangle me-1"></i>
-            QR Code não encontrado no sistema.
+            <i class="bi bi-exclamation-triangle me-1"></i>QR Code não encontrado.
           </div>
         <?php endif; ?>
       </div>
@@ -133,7 +165,6 @@ $lista  = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
         <span><i class="bi bi-list-ul me-2"></i>Equipamentos Cadastrados</span>
       </div>
       <div class="card-body pb-1">
-        <!-- Filtro -->
         <form method="get" action="indexequipamento.php" class="mb-3">
           <div class="input-group">
             <input type="text" class="form-control" name="filtro"
@@ -170,17 +201,15 @@ $lista  = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
                   <small class="text-muted"><?php echo htmlspecialchars($item->endereco); ?></small>
                 </td>
                 <td><?php echo htmlspecialchars($item->telefone); ?></td>
-                <td><?php echo htmlspecialchars($item->marca . " " . $item->modelo); ?></td>
-                <td>
-                  <code class="small"><?php echo htmlspecialchars($item->codigo_qr); ?></code>
-                </td>
+                <td><?php echo htmlspecialchars(trim($item->marca . " " . $item->modelo)); ?></td>
+                <td><code class="small"><?php echo htmlspecialchars($item->codigo_qr); ?></code></td>
                 <td>
                   <a href="qrcode.php?id=<?php echo $item->idequipamento; ?>"
                      class="btn btn-sm btn-outline-success" title="Imprimir QR Code">
                     <i class="bi bi-qr-code"></i>
                   </a>
                   <a href="indexordem.php?equip=<?php echo $item->idequipamento; ?>"
-                     class="btn btn-sm btn-outline-info" title="Ver ordens deste equipamento">
+                     class="btn btn-sm btn-outline-info" title="Ver ordens">
                     <i class="bi bi-clipboard2-check"></i>
                   </a>
                   <a href="indexequipamento.php?id=<?php echo $item->idequipamento; ?>"
@@ -202,5 +231,35 @@ $lista  = $filtro ? $eDao->buscarComFiltro('', $filtro) : $eDao->read();
     </div>
   </div>
 </div>
+
+<script>
+function toggleCliente() {
+    const tipo   = document.querySelector('input[name="tipoCliente"]:checked').value;
+    const secEx  = document.getElementById('secaoExistente');
+    const campos = document.getElementById('secaoDadosCliente');
+    if (tipo === 'existente') {
+        secEx.style.display  = 'block';
+        campos.style.display = 'none';
+    } else {
+        secEx.style.display  = 'none';
+        campos.style.display = 'block';
+        // Limpa os campos ao voltar para novo
+        document.getElementById('txtNomeCliente').value = '';
+        document.getElementById('txtEndereco').value    = '';
+        document.getElementById('txtTelefone').value    = '';
+    }
+}
+
+function preencherCliente() {
+    const sel    = document.getElementById('cbClienteExist');
+    const opt    = sel.options[sel.selectedIndex];
+    const campos = document.getElementById('secaoDadosCliente');
+    if (!opt.value) return;
+    campos.style.display = 'block';
+    document.getElementById('txtNomeCliente').value = opt.getAttribute('data-nome') || '';
+    document.getElementById('txtEndereco').value    = opt.getAttribute('data-end')  || '';
+    document.getElementById('txtTelefone').value    = opt.getAttribute('data-tel')  || '';
+}
+</script>
 
 <?php include "rodape.html"; ?>
