@@ -80,9 +80,14 @@ include "topo.html";
 
 <style>
 .cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
+}
+/* Cada card ocupa espaço mínimo de 200px mas cresce para preencher a linha */
+.cards-grid > * {
+  flex: 1 1 200px;
+  max-width: 100%;
 }
 .dash-card {
   background: #fff;
