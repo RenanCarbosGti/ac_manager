@@ -1,3 +1,5 @@
+<?php
+
 class conexao
 {
     private static $dbHost = "sql302.infinityfree.com";
