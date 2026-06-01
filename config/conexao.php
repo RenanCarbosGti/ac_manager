@@ -4,11 +4,10 @@
 
 class conexao
 {
-    private static $dbName = "ac_manager";
-    private static $dbHost = "localhost";
-    private static $dbUser = "root";
-    private static $dbPass = "";
-    private static $con    = null;
+    private static $dbHost = "sql302.infinityfree.com";
+    private static $dbName = "if0_42065046_XXX";
+    private static $dbUser = "if0_42065046";
+    private static $dbPass = "Luiza2023Renan";
 
     public static function conectar()
     {
