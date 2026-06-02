@@ -1,0 +1,263 @@
+{
+    "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
+    "version": "1.0.0",
+    "generatedTime": 1780333870180,
+    "data": [
+        {
+            "type": "file",
+            "name": "buscar_equipamento.php",
+            "size": 15214,
+            "hash": "a8f98fcd60e4b247c82f6ad7253ea1e398f52bce8fc60cce313f1322e5a324ac"
+        },
+        {
+            "type": "folder",
+            "name": "config"
+        },
+        {
+            "type": "folder",
+            "name": "controller"
+        },
+        {
+            "type": "folder",
+            "name": "dao"
+        },
+        {
+            "type": "file",
+            "name": "dashboard.php",
+            "size": 9919,
+            "hash": "bc7881d3994bf9990ed7dec37d5f9e3e9d2d6eed0c615c30009cf1ead9ccd510"
+        },
+        {
+            "type": "file",
+            "name": "equipamento_publico.php",
+            "size": 11922,
+            "hash": "a62b334f852024ff4b4637ab5d50e80a56c43d532548374b76cb7c1efedaee7a"
+        },
+        {
+            "type": "file",
+            "name": "index.php",
+            "size": 212,
+            "hash": "c066c3b11dd80f68b83229bd661d0e3f7e474e0943455a891db3bcc976fe3a84"
+        },
+        {
+            "type": "file",
+            "name": "indexequipamento.php",
+            "size": 12040,
+            "hash": "e44351c8bb250e0f694533e6d78d6c1fc1b6764a34adf779fac9f958df81d465"
+        },
+        {
+            "type": "file",
+            "name": "indexfinanceiro.php",
+            "size": 19102,
+            "hash": "595f6eb7217970422c17c82f8d809b03d5c735d913e8718e1197d621cc9e9712"
+        },
+        {
+            "type": "file",
+            "name": "indexmaterial.php",
+            "size": 12958,
+            "hash": "f2c21c4fe2f919cf7a1161f7ddaab7b1aed87049d15bce8d8626271b578e1bb3"
+        },
+        {
+            "type": "file",
+            "name": "indexordem.php",
+            "size": 13092,
+            "hash": "19000718812c23c4b6e07a1074b3ecd031c82f2fef7a6b3fdd70d408832d6ce2"
+        },
+        {
+            "type": "file",
+            "name": "indexprofissional.php",
+            "size": 5101,
+            "hash": "870900bb0b3d6127ebe2b33e79b8cde512cf675efb47572eec9c8827c83e0238"
+        },
+        {
+            "type": "file",
+            "name": "indexservico.php",
+            "size": 6181,
+            "hash": "beba0f3589a8717cd538b8b1f3d5e8f51c70500eba17143f3f38ac06cd68b9d7"
+        },
+        {
+            "type": "file",
+            "name": "login.php",
+            "size": 3092,
+            "hash": "a040af4180cbbc3f373b44ac32635d47bf40b2669a837545a023f1bcf5d378e2"
+        },
+        {
+            "type": "folder",
+            "name": "model"
+        },
+        {
+            "type": "file",
+            "name": "qrcode.php",
+            "size": 6396,
+            "hash": "2e8e346d50ff9c67ecfd931fc2a30caab4a7b600d5fc38bc05f8863ef5a346ab"
+        },
+        {
+            "type": "file",
+            "name": "rodape.html",
+            "size": 866,
+            "hash": "e415f62325821e70621b6eff83da7ef108a0c5e9c5c7c080a7bc2d3954343a6d"
+        },
+        {
+            "type": "file",
+            "name": "topo.html",
+            "size": 3450,
+            "hash": "11dc4497ed5e991c6f3ef8e465ecf4c487721b60d44486ae0f399567471e95f6"
+        },
+        {
+            "type": "file",
+            "name": "config/ac_manager.sql",
+            "size": 6141,
+            "hash": "bc6a39025406d5ecad4774ac6ab09e98627193b06ab9929b804be2d15811209b"
+        },
+        {
+            "type": "file",
+            "name": "config/conexao.example.php",
+            "size": 1067,
+            "hash": "8de172f2020754319dc22991f5d098074e95cb4f66734bd123a719226f4926a4"
+        },
+        {
+            "type": "file",
+            "name": "config/conexao.php",
+            "size": 969,
+            "hash": "b14a59c39ef463b05f95f3b20ba870605fdd1c6a2e08e838c4bfa03beacb37b0"
+        },
+        {
+            "type": "file",
+            "name": "controller/EquipamentoController.php",
+            "size": 2861,
+            "hash": "5607ce81e6761696b09e6211628dd5032effa8ee33e0d74e2d48a308a4ddb9bb"
+        },
+        {
+            "type": "file",
+            "name": "controller/FinanceiroController.php",
+            "size": 2342,
+            "hash": "d60ed988e820537f3a5c22dac2a4e03dc600bb0e71c86684aab7e2e83c3037c8"
+        },
+        {
+            "type": "file",
+            "name": "controller/LoginController.php",
+            "size": 876,
+            "hash": "7d9113356727b910dd2c10601c57414ef916497d3cfce86686d8c7376d56e8f0"
+        },
+        {
+            "type": "file",
+            "name": "controller/MaterialController.php",
+            "size": 2246,
+            "hash": "2c2072eb15bf95fbc549377d0ea58730fe7ac2799d1d2e54123daa2cd1aa2a08"
+        },
+        {
+            "type": "file",
+            "name": "controller/OrdemServicoController.php",
+            "size": 3040,
+            "hash": "997f97a3914b5114565ca90d0fe4196f766bd7aafd6c926497a60bddabd0e898"
+        },
+        {
+            "type": "file",
+            "name": "controller/ProfissionalController.php",
+            "size": 1124,
+            "hash": "5f51a01877e82a274b1ef5848af9d5ae432c5075296169c102a71b8223a10f91"
+        },
+        {
+            "type": "file",
+            "name": "controller/ServicoController.php",
+            "size": 1153,
+            "hash": "6f003906cc670ae09a77d28bdcb11e197e557309da1c12af4c493a725da74660"
+        },
+        {
+            "type": "file",
+            "name": "dao/EquipamentoDao.php",
+            "size": 7984,
+            "hash": "39385420ed866c3a50f6c5bd606f7482e5bc71be6248c3a10ab68d0a03614c93"
+        },
+        {
+            "type": "file",
+            "name": "dao/ClienteDao.php",
+            "size": 2321,
+            "hash": "1f653e53d374482f54d67e98764fdbbf7081e402efbe618728debc099c09f647"
+        },
+        {
+            "type": "file",
+            "name": "dao/FinanceiroDao.php",
+            "size": 8556,
+            "hash": "c7a6c266cb740002a9988b601f32ce54f634fcd189e0a014d17d9745fa94a153"
+        },
+        {
+            "type": "file",
+            "name": "dao/MaterialDao.php",
+            "size": 5615,
+            "hash": "bc45cfaaaf1a711a4315a3b90b486fe8e9bd2b6dff2b5cfaedd2786dd3d55159"
+        },
+        {
+            "type": "file",
+            "name": "dao/OrdemServicoDao.php",
+            "size": 8872,
+            "hash": "a909562c9dab8ad660a16cdb2461fa74cb16b77eadd8180cb71fcdad3929e5f6"
+        },
+        {
+            "type": "file",
+            "name": "dao/ProfissionalDao.php",
+            "size": 2871,
+            "hash": "ff623aa7c0036f97d09e03ba0a2d2f8c97def4c14035c94e5cdf4620848e17c9"
+        },
+        {
+            "type": "file",
+            "name": "dao/ServicoDao.php",
+            "size": 2877,
+            "hash": "ee7f7bc248d38d7d655414af9fa03aaa5521b46f4873c6d397f3ec9af6039ae0"
+        },
+        {
+            "type": "file",
+            "name": "dao/UsuarioDao.php",
+            "size": 3102,
+            "hash": "e2d1f2beac2ac3346c4aea97cd268c3d5ed0d47be57f2255bacaaa2524924d76"
+        },
+        {
+            "type": "file",
+            "name": "model/cliente.php",
+            "size": 497,
+            "hash": "8484a11656ec5ecf27863e7f070e643f785859fd2cc767e1cd9fe87a22038d05"
+        },
+        {
+            "type": "file",
+            "name": "model/equipamento.php",
+            "size": 806,
+            "hash": "c198012793970dbe821575e8a4502d21cbfcdbc0323c670184aa7722cf2eca21"
+        },
+        {
+            "type": "file",
+            "name": "model/financeiro.php",
+            "size": 880,
+            "hash": "0706a33a221ce9c1aed7b3869c48707658b9455312fd0993a40958ef3f20aa2c"
+        },
+        {
+            "type": "file",
+            "name": "model/material.php",
+            "size": 789,
+            "hash": "fcc2bc4691dec8b3bbdf8f8cfdd8abfeda31be9271e6ddff5ac3206f343b82d6"
+        },
+        {
+            "type": "file",
+            "name": "model/ordemservico.php",
+            "size": 1084,
+            "hash": "a7656da4d4ef951ce2e41c060110720f82a5fd10332ad924a930c1e56abebefd"
+        },
+        {
+            "type": "file",
+            "name": "model/profissional.php",
+            "size": 585,
+            "hash": "b2a1ec0234aa6223b76c26bbc576e787c3a7189d048b33bf99ce6aff414057e1"
+        },
+        {
+            "type": "file",
+            "name": "model/servico.php",
+            "size": 631,
+            "hash": "be720e2e113c55c2ee441ae8f017c3a8ae445d953f60cda8021bb5f49e02da69"
+        },
+        {
+            "type": "file",
+            "name": "model/usuario.php",
+            "size": 656,
+            "hash": "71c50b089f0eb7748700c7ce809fa4722c711593ee3a93d2ffb0b2b501c5c67c"
+        }
+    ]
+}
