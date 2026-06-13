@@ -31,13 +31,13 @@ class EquipamentoDao
         try {
             $pdo    = conexao::conectar();
             $codigo = $this->gerarCodigoQR();
-            $sql    = "INSERT INTO equipamento (codigo_qr, idcliente, nome_cliente, endereco, telefone, modelo, marca)
-                       VALUES (?,?,?,?,?,?,?)";
+            $sql    = "INSERT INTO equipamento (codigo_qr, idcliente, nome_cliente, endereco, telefone, modelo, marca, observacao)
+                       VALUES (?,?,?,?,?,?,?,?)";
             $q      = $pdo->prepare($sql);
             $q->execute([
                 $codigo, $idcliente ?: null,
                 $e->nome_cliente, $e->endereco, $e->telefone,
-                $e->modelo, $e->marca
+                $e->modelo, $e->marca, $e->observacao
             ]);
             $novoId = $pdo->lastInsertId();
             conexao::desconectar();
@@ -57,7 +57,7 @@ class EquipamentoDao
             foreach ($res as $l) {
                 $lista[] = new equipamento(
                     $l['idequipamento'], $l['codigo_qr'], $l['nome_cliente'],
-                    $l['endereco'],      $l['telefone'],  $l['modelo'], $l['marca']
+                    $l['endereco'], $l['telefone'], $l['modelo'], $l['marca'], $l['observacao'] ?? ''
                 );
             }
             conexao::desconectar();
@@ -192,7 +192,7 @@ class EquipamentoDao
             foreach ($q->fetchAll(PDO::FETCH_ASSOC) as $l) {
                 $lista[] = new equipamento(
                     $l['idequipamento'], $l['codigo_qr'], $l['nome_cliente'],
-                    $l['endereco'],      $l['telefone'],  $l['modelo'], $l['marca']
+                    $l['endereco'], $l['telefone'], $l['modelo'], $l['marca'], $l['observacao'] ?? ''
                 );
             }
             conexao::desconectar();
@@ -206,12 +206,12 @@ class EquipamentoDao
     {
         try {
             $pdo = conexao::conectar();
-            $sql = "UPDATE equipamento SET nome_cliente=?, endereco=?, telefone=?, modelo=?, marca=?
+            $sql = "UPDATE equipamento SET nome_cliente=?, endereco=?, telefone=?, modelo=?, marca=?, observacao=?
                     WHERE idequipamento=?";
             $q   = $pdo->prepare($sql);
             $q->execute([
                 $e->nome_cliente, $e->endereco, $e->telefone,
-                $e->modelo, $e->marca, $e->idequipamento
+                $e->modelo, $e->marca, $e->observacao, $e->idequipamento
             ]);
             conexao::desconectar();
             return true;

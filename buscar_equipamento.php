@@ -121,14 +121,129 @@ function vencBadge($dataVenc, $status) {
           <?php else: ?>
           <div class="input-group">
             <input type="text" class="form-control form-control-lg" name="busca"
+                   id="inputBusca"
                    value="<?php echo htmlspecialchars($busca); ?>"
                    placeholder="<?php echo $tipo==='qr' ? 'Ex: AC-A1B2C3D4-123' : '(00) 00000-0000'; ?>"
                    autofocus autocomplete="off">
-            <button class="btn btn-primary px-4" type="submit"><i class="bi bi-search"></i></button>
+            <?php if ($tipo === 'qr'): ?>
+            <button class="btn btn-success px-4" type="button" id="btnCamera" title="Usar câmera">
+              <i class="bi bi-camera"></i>
+            </button>
+            <?php endif; ?>
+            <button class="btn btn-primary px-4" type="submit" id="btnBuscar"><i class="bi bi-search"></i></button>
           </div>
           <div class="form-text"><i class="bi bi-info-circle me-1"></i>
-            <?php echo $tipo==='qr' ? 'Cole o código do QR colado no equipamento.' : 'Digite o telefone do cliente.'; ?>
+            <?php echo $tipo==='qr' ? 'Cole o código ou use a câmera do celular.' : 'Digite o telefone do cliente.'; ?>
           </div>
+          <?php if ($tipo === 'qr'): ?>
+          <!-- Scanner de câmera inline -->
+          <div id="divCamera" class="mt-3" style="display:none;">
+            <div class="ratio ratio-4x3 rounded overflow-hidden border" style="max-width:320px; margin:0 auto;">
+              <video id="videoCamera" autoplay playsinline></video>
+            </div>
+            <canvas id="canvasQR" style="display:none;"></canvas>
+            <div class="text-center mt-2">
+              <button type="button" class="btn btn-outline-danger btn-sm" id="btnFecharCamera">
+                <i class="bi bi-x-circle me-1"></i>Fechar câmera
+              </button>
+            </div>
+          </div>
+          <!-- Inclui jsQR para leitura do QR -->
+          <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+          <script>
+          const btnCamera    = document.getElementById("btnCamera");
+          const btnFechar    = document.getElementById("btnFecharCamera");
+          const divCamera    = document.getElementById("divCamera");
+          const video        = document.getElementById("videoCamera");
+          const canvas       = document.getElementById("canvasQR");
+          const inputBusca   = document.getElementById("inputBusca");
+          const btnBuscar    = document.getElementById("btnBuscar");
+          let stream         = null;
+          let scanLoop       = null;
+
+          btnCamera.addEventListener("click", () => {
+              // No celular abre câmera; no desktop avisa
+              if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                  alert("Câmera não disponível neste dispositivo. Cole o código manualmente.");
+                  return;
+              }
+              divCamera.style.display = "block";
+              btnCamera.disabled = true;
+              navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                  .then(s => {
+                      stream = s;
+                      video.srcObject = s;
+                      video.play();
+                      iniciarScan();
+                  })
+                  .catch(() => {
+                      // Fallback: abre seletor de app/câmera do sistema
+                      divCamera.style.display = "none";
+                      btnCamera.disabled = false;
+                      const input = document.createElement("input");
+                      input.type = "file";
+                      input.accept = "image/*";
+                      input.capture = "environment";
+                      input.onchange = e => {
+                          const file = e.target.files[0];
+                          if (!file) return;
+                          const reader = new FileReader();
+                          reader.onload = ev => {
+                              const img = new Image();
+                              img.onload = () => {
+                                  const ctx = canvas.getContext("2d");
+                                  canvas.width = img.width; canvas.height = img.height;
+                                  ctx.drawImage(img, 0, 0);
+                                  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                                  const code = jsQR(imageData.data, imageData.width, imageData.height);
+                                  if (code) {
+                                      processarQR(code.data);
+                                  } else {
+                                      alert("QR Code não reconhecido. Tente novamente.");
+                                  }
+                              };
+                              img.src = ev.target.result;
+                          };
+                          reader.readAsDataURL(file);
+                      };
+                      input.click();
+                  });
+          });
+
+          function iniciarScan() {
+              const ctx = canvas.getContext("2d");
+              scanLoop = setInterval(() => {
+                  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                      canvas.width  = video.videoWidth;
+                      canvas.height = video.videoHeight;
+                      ctx.drawImage(video, 0, 0);
+                      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                      const code = jsQR(imageData.data, imageData.width, imageData.height);
+                      if (code) {
+                          processarQR(code.data);
+                      }
+                  }
+              }, 300);
+          }
+
+          function processarQR(texto) {
+              pararCamera();
+              // Extrai o código QR da URL ou usa o texto inteiro
+              const match = texto.match(/qr=([^&]+)/);
+              inputBusca.value = match ? decodeURIComponent(match[1]) : texto;
+              btnBuscar.click();
+          }
+
+          function pararCamera() {
+              clearInterval(scanLoop);
+              if (stream) { stream.getTracks().forEach(t => t.stop()); }
+              divCamera.style.display = "none";
+              btnCamera.disabled = false;
+          }
+
+          btnFechar.addEventListener("click", pararCamera);
+          </script>
+          <?php endif; ?>
           <?php endif; ?>
         </form>
       </div>

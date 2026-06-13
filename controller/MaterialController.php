@@ -7,6 +7,9 @@ include_once "../model/material.php";
 include_once "../dao/MaterialDao.php";
 
 if (!isset($_SESSION["idusuario"])) { header("location:../login.php"); exit; }
+if (!in_array($_SESSION["tipo"] ?? "", ["admin","profissional"])) {
+    header("location:../dashboard.php"); exit;
+}
 
 $mDao = new MaterialDao();
 

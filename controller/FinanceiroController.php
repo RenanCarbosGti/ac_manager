@@ -8,6 +8,9 @@ include_once "../dao/FinanceiroDao.php";
 include_once "../dao/MaterialDao.php";
 
 if (!isset($_SESSION["idusuario"])) { header("location:../login.php"); exit; }
+if (!in_array($_SESSION["tipo"] ?? "", ["admin","profissional"])) {
+    header("location:../dashboard.php"); exit;
+}
 
 if (isset($_POST["btGravar"]) || isset($_GET["id"])) {
 

@@ -1,6 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION["idusuario"])) { header("location:login.php"); exit; }
+if (!in_array($_SESSION["tipo"] ?? "", ["admin","profissional"])) {
+    header("location:dashboard.php"); exit;
+}
 
 include_once "config/conexao.php";
 include_once "model/financeiro.php";

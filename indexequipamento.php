@@ -1,6 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION["idusuario"])) { header("location:login.php"); exit; }
+if (!in_array($_SESSION["tipo"] ?? "", ["admin","profissional"])) {
+    header("location:dashboard.php"); exit;
+}
 
 include_once "config/conexao.php";
 include_once "model/equipamento.php";
@@ -116,11 +119,17 @@ $isEdicao      = !empty($result["idequipamento"]);
                    placeholder="Ex: Samsung, LG, Midea..."
                    value="<?php echo htmlspecialchars($result["marca"]); ?>">
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
             <label class="form-label">Modelo do AC</label>
             <input type="text" class="form-control" name="txtModelo"
                    placeholder="Ex: Split 9000 BTU inverter"
                    value="<?php echo htmlspecialchars($result["modelo"]); ?>">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Observação</label>
+            <textarea class="form-control" name="txtObservacao" rows="2"
+                      placeholder="Ex: Quarto, Sala, Escritório, andar..."><?php echo htmlspecialchars($result["observacao"] ?? ""); ?></textarea>
+            <div class="form-text">Localização ou informações adicionais do aparelho.</div>
           </div>
           <div class="d-flex gap-2">
             <button type="submit" name="btGravar" class="btn btn-primary flex-fill">

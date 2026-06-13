@@ -21,6 +21,14 @@
   </style>
 </head>
 <body>
+<?php
+// Permissões por tipo de usuário
+// admin       → acesso total
+// profissional→ acesso total
+// usuario     → apenas Dashboard, Buscar Aparelho, Ordens de Serviço (somente leitura)
+$tipoSessao   = $_SESSION["tipo"] ?? "usuario";
+$isAdmin      = in_array($tipoSessao, ["admin", "profissional"]);
+?>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="dashboard.php">
@@ -34,15 +42,18 @@
           <li class="nav-item">
             <a class="nav-link" href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
           </li>
+          <?php if ($isAdmin): ?>
           <li class="nav-item">
             <a class="nav-link" href="indexequipamento.php"><i class="bi bi-cpu"></i> Equipamentos</a>
           </li>
+          <?php endif; ?>
           <li class="nav-item">
             <a class="nav-link" href="buscar_equipamento.php"><i class="bi bi-qr-code-scan"></i> Buscar Aparelho</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="indexordem.php"><i class="bi bi-clipboard2-check"></i> Ordens de Serviço</a>
           </li>
+          <?php if ($isAdmin): ?>
           <li class="nav-item">
             <a class="nav-link" href="indexservico.php"><i class="bi bi-gear"></i> Serviços</a>
           </li>
@@ -55,11 +66,16 @@
           <li class="nav-item">
             <a class="nav-link" href="indexmaterial.php"><i class="bi bi-boxes"></i> Estoque</a>
           </li>
+          <?php endif; ?>
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <span class="nav-link"><i class="bi bi-person-circle"></i>
+            <span class="nav-link">
+              <i class="bi bi-person-circle"></i>
               <?php echo isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : ""; ?>
+              <?php if (!$isAdmin): ?>
+                <span class="badge bg-warning text-dark ms-1" style="font-size:.65rem;">Usuário</span>
+              <?php endif; ?>
             </span>
           </li>
           <li class="nav-item">

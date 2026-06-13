@@ -1,9 +1,9 @@
 <?php
+// controller/LoginController.php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include_once "../config/conexao.php";
 include_once "../model/usuario.php";
@@ -15,22 +15,16 @@ if (isset($_POST["btEntrar"])) {
     $email = trim($_POST["txtEmail"]);
     $senha = trim($_POST["txtSenha"]);
 
-    $dao = new UsuarioDao();
+    $dao     = new UsuarioDao();
     $usuario = $dao->buscarPorEmail($email);
 
-    if ($usuario) {
+    if ($usuario && password_verify($senha, $usuario["senha"]) && $usuario["ativo"] == 1) {
+        $_SESSION["idusuario"] = $usuario["idusuario"];
+        $_SESSION["nome"]      = $usuario["nome"];
+        $_SESSION["tipo"]      = $usuario["tipo"];
 
-        // TEMPORÁRIO PARA TESTES
-        // depois trocamos para password_verify()
-        if ($senha == "123456" || $senha == "admin123") {
-
-            $_SESSION["idusuario"] = $usuario["idusuario"];
-            $_SESSION["nome"]      = $usuario["nome"];
-            $_SESSION["tipo"]      = $usuario["tipo"];
-
-            header("Location: ../dashboard.php");
-            exit;
-        }
+        header("Location: ../dashboard.php");
+        exit;
     }
 
     $_SESSION["erro_login"] = "E-mail ou senha inválidos.";
@@ -40,12 +34,9 @@ if (isset($_POST["btEntrar"])) {
 
 /* LOGOUT */
 if (isset($_GET["sair"])) {
-
-    $_SESSION = array();
-
+    $_SESSION = [];
     session_unset();
     session_destroy();
-
     header("Location: ../login.php");
     exit;
 }

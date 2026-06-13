@@ -23,7 +23,7 @@ CREATE TABLE usuario (
     nome        VARCHAR(100) NOT NULL,
     email       VARCHAR(150) NOT NULL UNIQUE,
     senha       VARCHAR(255) NOT NULL,
-    tipo        ENUM('admin','profissional') DEFAULT 'profissional',
+    tipo        ENUM('admin','profissional','usuario') DEFAULT 'profissional',
     ativo       TINYINT(1) DEFAULT 1,
     criado_em   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,6 +62,7 @@ CREATE TABLE equipamento (
     telefone        VARCHAR(20)  NOT NULL DEFAULT '',
     modelo          VARCHAR(100),
     marca           VARCHAR(100),
+    observacao      TEXT NULL,
     FOREIGN KEY (idcliente) REFERENCES cliente(idcliente) ON DELETE SET NULL
 );
 
